@@ -6,9 +6,6 @@ edition = "2021"
 [dev-dependencies]
 criterion = "*"
 
-[[bin]]
-name = "01-sonarsweep"
-
 [[bench]]
 name = "bench"
 harness = false
