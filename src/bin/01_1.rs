@@ -4,9 +4,8 @@ use std::time::Instant;
 fn main() {
     println!("Puzzle 01 - Sonar Sweep - Part 1");
 
-    let input = read_input("inputs/01.txt");
-
     let start = Instant::now();
+    let input = read_input("inputs/01.txt");
     let solution = solve_part1(input);
     let time = start.elapsed();
 

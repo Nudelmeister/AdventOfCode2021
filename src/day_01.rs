@@ -1,7 +1,6 @@
 use std::{
     fs::File,
     io::{BufRead, BufReader},
-    mem,
 };
 
 pub fn solve_part1(input: impl Iterator<Item = i32>) -> i32 {
