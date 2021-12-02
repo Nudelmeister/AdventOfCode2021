@@ -1,17 +1,33 @@
-use std::{
-    fs::File,
-    io::{BufRead, BufReader},
-};
+use std::fs;
 
-pub fn solve_part1(input: impl Iterator<Item = Command>) -> i32 {
+pub fn solve_part1(input: &[Command]) -> i32 {
     let mut position = 0;
     let mut depth = 0;
 
     for command in input {
         match command.direction {
-            Direction::Up => depth -= command.distance,
-            Direction::Down => depth += command.distance,
-            Direction::Forward => position += command.distance,
+            Direction::Up => depth -= command.value,
+            Direction::Down => depth += command.value,
+            Direction::Forward => position += command.value,
+        }
+    }
+
+    position * depth
+}
+
+pub fn solve_part2(input: &[Command]) -> i32 {
+    let mut position = 0;
+    let mut aim = 0;
+    let mut depth = 0;
+
+    for command in input {
+        match command.direction {
+            Direction::Up => aim -= command.value,
+            Direction::Down => aim += command.value,
+            Direction::Forward => {
+                position += command.value;
+                depth += aim * command.value;
+            }
         }
     }
 
@@ -39,7 +55,7 @@ impl Direction {
 #[derive(Clone)]
 pub struct Command {
     direction: Direction,
-    distance: i32,
+    value: i32,
 }
 
 impl Command {
@@ -54,15 +70,14 @@ impl Command {
 
         Self {
             direction,
-            distance,
+            value: distance,
         }
     }
 }
 
-pub fn read_input(path: &str) -> impl Iterator<Item = Command> {
-    BufReader::new(File::open(path).unwrap_or_else(|e| panic!("Error opening file: {}", e)))
-        .lines()
-        .map(|l| l.expect("Error reading a line from input"))
-        .filter(|l| !l.trim().is_empty())
-        .map(|l| Command::parse(&l))
+pub fn parse_input(input: &str) -> Vec<Command> {
+    input.lines().map(|l| Command::parse(l)).collect()
+}
+pub fn parse_input_from_file(path: &str) -> Vec<Command> {
+    parse_input(&fs::read_to_string(path).unwrap())
 }

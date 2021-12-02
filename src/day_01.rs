@@ -1,12 +1,9 @@
-use std::{
-    fs::File,
-    io::{BufRead, BufReader},
-};
+use std::fs;
 
-pub fn solve_part1(input: impl Iterator<Item = i32>) -> i32 {
+pub fn solve_part1(input: &[i32]) -> i32 {
     let mut increase_count = 0;
     let mut previous = i32::MAX;
-    for next in input {
+    for &next in input {
         if previous < next {
             increase_count += 1;
         }
@@ -15,16 +12,17 @@ pub fn solve_part1(input: impl Iterator<Item = i32>) -> i32 {
     increase_count
 }
 
-pub fn solve_part2(mut input: impl Iterator<Item = i32>) -> i32 {
-    let one = input.next().unwrap();
-    let two = input.next().unwrap();
-    let three = input.next().unwrap();
-
-    let mut windows = [vec![one, two, three], vec![two, three], vec![three]];
+pub fn solve_part2(input: &[i32]) -> i32 {
+    assert!(input.len() > 3);
+    let mut windows = [
+        input[0..3].to_vec(),
+        input[1..3].to_vec(),
+        input[2..3].to_vec(),
+    ];
 
     let mut increase_count = 0;
 
-    for sample in input {
+    for &sample in &input[3..] {
         windows[1].push(sample);
         windows[2].push(sample);
 
@@ -46,10 +44,9 @@ fn has_increased(prev: &[i32], next: &[i32]) -> bool {
     prev[0] + prev[1] + prev[2] < next[0] + next[1] + next[2]
 }
 
-pub fn read_input(path: &str) -> impl Iterator<Item = i32> {
-    BufReader::new(File::open(path).unwrap_or_else(|e| panic!("Error opening file: {}", e)))
-        .lines()
-        .map(|l| l.expect("Error reading a line from input"))
-        .filter(|l| !l.trim().is_empty())
-        .map(|l| l.parse().expect("Error parsing line as number"))
+pub fn parse_input(input: &str) -> Vec<i32> {
+    input.lines().map(|l| l.parse().unwrap()).collect()
+}
+pub fn parse_input_from_file(path: &str) -> Vec<i32> {
+    parse_input(&fs::read_to_string(path).unwrap())
 }

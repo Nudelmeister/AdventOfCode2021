@@ -14,41 +14,25 @@ criterion_group!(
 );
 
 fn bench_01(c: &mut Criterion) {
-    let input = day_01::read_input("inputs/01.txt").collect::<Vec<_>>();
+    let input = day_01::parse_input_from_file("inputs/01.txt");
     let mut group = c.benchmark_group("Puzzle 01 - Sonar Sweep");
     group.bench_function("Part 1", |b| {
-        b.iter_batched(
-            || input.clone().into_iter(),
-            day_01::solve_part1,
-            criterion::BatchSize::SmallInput,
-        );
+        b.iter(|| day_01::solve_part1(&input));
     });
     group.bench_function("Part 2", |b| {
-        b.iter_batched(
-            || input.clone().into_iter(),
-            day_01::solve_part2,
-            criterion::BatchSize::SmallInput,
-        );
+        b.iter(|| day_01::solve_part2(&input));
     });
     group.finish();
 }
 
 fn bench_02(c: &mut Criterion) {
-    let input = day_02::read_input("inputs/02.txt").collect::<Vec<_>>();
+    let input = day_02::parse_input_from_file("inputs/02.txt");
     let mut group = c.benchmark_group("Puzzle 02 - Dive!");
     group.bench_function("Part 1", |b| {
-        b.iter_batched(
-            || input.clone().into_iter(),
-            day_02::solve_part1,
-            criterion::BatchSize::SmallInput,
-        );
+        b.iter(|| day_02::solve_part1(&input));
     });
-    //group.bench_function("Part 2", |b| {
-    //    b.iter_batched(
-    //        || input.clone().into_iter(),
-    //        day_02::solve_part2,
-    //        criterion::BatchSize::SmallInput,
-    //    );
-    //});
+    group.bench_function("Part 2", |b| {
+        b.iter(|| day_02::solve_part2(&input));
+    });
     group.finish();
 }
