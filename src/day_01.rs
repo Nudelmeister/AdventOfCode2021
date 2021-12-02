@@ -50,3 +50,44 @@ pub fn parse_input(input: &str) -> Vec<i32> {
 pub fn parse_input_from_file(path: &str) -> Vec<i32> {
     parse_input(&fs::read_to_string(path).unwrap())
 }
+
+#[cfg(test)]
+mod test {
+    const EXAMPLE: &str = "199\n\
+                           200\n\
+                           208\n\
+                           210\n\
+                           200\n\
+                           207\n\
+                           240\n\
+                           269\n\
+                           260\n\
+                           263";
+    #[test]
+    fn part_1_example() {
+        let input = super::parse_input(EXAMPLE);
+        let solution = super::solve_part1(&input);
+        assert_eq!(7, solution);
+    }
+
+    #[test]
+    fn part_1_puzzle() {
+        let input = super::parse_input_from_file("inputs/01.txt");
+        let solution = super::solve_part1(&input);
+        assert_eq!(1462, solution);
+    }
+
+    #[test]
+    fn part_2_example() {
+        let input = super::parse_input(EXAMPLE);
+        let solution = super::solve_part2(&input);
+        assert_eq!(5, solution);
+    }
+
+    #[test]
+    fn part_2_puzzle() {
+        let input = super::parse_input_from_file("inputs/01.txt");
+        let solution = super::solve_part2(&input);
+        assert_eq!(1497, solution);
+    }
+}

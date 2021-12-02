@@ -81,3 +81,42 @@ pub fn parse_input(input: &str) -> Vec<Command> {
 pub fn parse_input_from_file(path: &str) -> Vec<Command> {
     parse_input(&fs::read_to_string(path).unwrap())
 }
+
+#[cfg(test)]
+mod test {
+    const EXAMPLE: &str = "forward 5\n\
+                           down 5\n\
+                           forward 8\n\
+                           up 3\n\
+                           down 8\n\
+                           forward 2";
+
+    #[test]
+    fn part_1_example() {
+        let input = super::parse_input(EXAMPLE);
+        let solution = super::solve_part1(&input);
+        assert_eq!(150, solution);
+    }
+
+    #[test]
+    fn part_1_puzzle() {
+        let input = super::parse_input_from_file("inputs/02.txt");
+        let solution = super::solve_part1(&input);
+        assert_eq!(1660158, solution);
+    }
+
+    #[test]
+    fn part_2_example() {
+        let input = super::parse_input(EXAMPLE);
+        let solution = super::solve_part2(&input);
+        assert_eq!(900, solution);
+    }
+
+    #[test]
+    #[ignore = "not solved yet"]
+    fn part_2_puzzle() {
+        let input = super::parse_input_from_file("inputs/02.txt");
+        let solution = super::solve_part2(&input);
+        assert_eq!(1660158, solution);
+    }
+}
