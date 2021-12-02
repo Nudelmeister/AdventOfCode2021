@@ -113,10 +113,9 @@ mod test {
     }
 
     #[test]
-    #[ignore = "not solved yet"]
     fn part_2_puzzle() {
         let input = super::parse_input_from_file("inputs/02.txt");
         let solution = super::solve_part2(&input);
-        assert_eq!(1660158, solution);
+        assert_eq!(1604592846, solution);
     }
 }
