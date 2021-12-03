@@ -76,7 +76,7 @@ impl Command {
 }
 
 pub fn parse_input(input: &str) -> Vec<Command> {
-    input.lines().map(|l| Command::parse(l)).collect()
+    input.lines().map(Command::parse).collect()
 }
 pub fn parse_input_from_file(path: &str) -> Vec<Command> {
     parse_input(&fs::read_to_string(path).unwrap())
