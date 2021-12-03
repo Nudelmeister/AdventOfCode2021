@@ -40,12 +40,12 @@ fn bench_02(c: &mut Criterion) {
 
 fn bench_03(c: &mut Criterion) {
     let input = day_03::parse_input_from_file("inputs/03.txt");
-    let mut group = c.benchmark_group("Puzzle 02 - Dive!");
+    let mut group = c.benchmark_group("Puzzle 03 - Binary Diagnostic");
     group.bench_function("Part 1", |b| {
-        b.iter(|| day_03::solve_part1(&input));
+        b.iter(|| day_03::solve_part1::<12>(&input));
     });
-    //group.bench_function("Part 2", |b| {
-    //    b.iter(|| day_03::solve_part2(&input));
-    //});
+    group.bench_function("Part 2", |b| {
+        b.iter(|| day_03::solve_part2::<12>(&input));
+    });
     group.finish();
 }

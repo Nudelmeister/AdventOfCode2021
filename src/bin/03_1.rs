@@ -6,7 +6,7 @@ fn main() {
 
     let start = Instant::now();
     let input = parse_input_from_file("inputs/03.txt");
-    let solution = solve_part1(&input);
+    let solution = solve_part1::<12>(&input);
     let time = start.elapsed();
 
     println!("Time: {:?}", time);

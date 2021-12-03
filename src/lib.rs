@@ -4,23 +4,21 @@ pub mod day_02;
 pub mod day_03 {
     use std::fs;
 
-    pub fn solve_part1(input: &[Vec<bool>]) -> i32 {
-        let mut bit_counters = vec![0; input[0].len()];
+    pub fn solve_part1<const INPUT_WIDTH: usize>(input: &[u32]) -> i32 {
+        let mut bit_counters = [0; INPUT_WIDTH];
 
-        for bits in input {
-            assert_eq!(bit_counters.len(), bits.len());
-            for (idx, &bit) in bits.iter().enumerate() {
-                bit_counters[idx] += bit as i32;
+        for &bits in input {
+            for (idx, counter) in bit_counters.iter_mut().enumerate() {
+                *counter += (bits & (1 << idx) != 0) as i32;
             }
         }
 
         let mut gamma_rate = 0;
         let mut epsilon_rate = 0;
-        let num_bits = bit_counters.len();
         let num_samples = input.len() as i32;
-        for (left_idx, counter) in bit_counters.into_iter().enumerate() {
+
+        for (idx, counter) in bit_counters.into_iter().enumerate() {
             let bit_common = counter > num_samples / 2;
-            let idx = num_bits - left_idx - 1;
             gamma_rate |= (bit_common as i32) << idx;
             epsilon_rate |= (!bit_common as i32) << idx;
         }
@@ -28,25 +26,19 @@ pub mod day_03 {
         gamma_rate * epsilon_rate
     }
 
-    pub fn solve_part2(input: &[Vec<bool>]) -> i32 {
+    pub fn solve_part2<const INPUT_WIDTH: usize>(input: &[u32]) -> i32 {
         todo!()
     }
 
-    fn parse_input_line(line: &str) -> Vec<bool> {
-        line.chars()
-            .map(|c| match c {
-                '1' => true,
-                '0' => false,
-                x => panic!("Invalid character: `{:?}`", x),
-            })
-            .collect()
+    fn parse_input_line(line: &str) -> u32 {
+        u32::from_str_radix(line, 2).unwrap()
     }
 
-    pub fn parse_input(input: &str) -> Vec<Vec<bool>> {
+    pub fn parse_input(input: &str) -> Vec<u32> {
         input.lines().map(parse_input_line).collect()
     }
 
-    pub fn parse_input_from_file(path: &str) -> Vec<Vec<bool>> {
+    pub fn parse_input_from_file(path: &str) -> Vec<u32> {
         parse_input(&fs::read_to_string(path).unwrap())
     }
 
@@ -68,29 +60,29 @@ pub mod day_03 {
         #[test]
         fn part_1_example() {
             let input = super::parse_input(EXAMPLE);
-            let solution = super::solve_part1(&input);
+            let solution = super::solve_part1::<5>(&input);
             assert_eq!(198, solution);
         }
 
         #[test]
         fn part_1_puzzle() {
             let input = super::parse_input_from_file("inputs/03.txt");
-            let solution = super::solve_part1(&input);
+            let solution = super::solve_part1::<12>(&input);
             assert_eq!(3882564, solution);
         }
 
         #[test]
         fn part_2_example() {
             let input = super::parse_input(EXAMPLE);
-            let solution = super::solve_part2(&input);
-            assert_eq!(900, solution);
+            let solution = super::solve_part2::<5>(&input);
+            assert_eq!(0, solution);
         }
 
         #[test]
         fn part_2_puzzle() {
             let input = super::parse_input_from_file("inputs/03.txt");
-            let solution = super::solve_part2(&input);
-            assert_eq!(1604592846, solution);
+            let solution = super::solve_part2::<12>(&input);
+            assert_eq!(0, solution);
         }
     }
 }
