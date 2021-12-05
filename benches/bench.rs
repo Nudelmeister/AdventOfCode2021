@@ -9,8 +9,8 @@ criterion_group!(
         .sample_size(1_000)
         .measurement_time(Duration::from_secs(10));
     targets =
-        //bench_01,
-        //bench_02,
+        bench_01,
+        bench_02,
         bench_03,
 );
 
